@@ -7,6 +7,7 @@ O Invista+ ajuda a estudar ações e fundos imobiliários da B3. O servidor cons
 | O quê | Link |
 | --- | --- |
 | Site (dashboard do cofrinho) | https://invista-mais-brown.vercel.app |
+| Cofre 3D (como o cofrinho funciona por dentro) | https://invista-mais-brown.vercel.app/cofre-3d |
 | API e documentação OpenAPI | https://invista-mais-api.vercel.app/api/docs |
 | Simulação do cofrinho no Wokwi | https://wokwi.com/projects/476253388257385473 |
 

@@ -152,3 +152,61 @@ details summary { cursor: pointer; font-weight: 600; margin-bottom: 0.75rem; }
   .controle { grid-template-columns: 1fr; gap: 0.4rem; }
   .linha-form { flex-direction: column; }
 }
+
+.cofre3d-sub { margin: -0.5rem 0 1rem; }
+.cofre3d-modos { display: flex; gap: 0.35rem; }
+.cofre3d-grade { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 1rem; align-items: start; }
+.cofre3d-palco {
+  position: relative; border: 1px solid var(--borda); border-radius: var(--raio); overflow: hidden;
+  background: radial-gradient(circle at 50% 35%, #ffffff 0%, #e6edf5 70%, #d7e1ec 100%);
+}
+.cofre3d-canvas { position: relative; height: min(68vh, 620px); min-height: 380px; touch-action: none; }
+.cofre3d-canvas canvas { display: block; }
+.cofre3d-rotulos { position: absolute; inset: 0; pointer-events: none; }
+.cofre3d-pino {
+  pointer-events: auto; width: 26px; height: 26px; border-radius: 50%; border: 2px solid #fff;
+  background: var(--primaria); color: #fff; font-weight: 700; font-size: 0.8rem; cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25); padding: 0;
+}
+.cofre3d-pino:hover, .cofre3d-pino.ativo { background: #ff8a00; transform: scale(1.15); }
+.cofre3d-etapa {
+  position: absolute; left: 0.75rem; right: 0.75rem; bottom: 0.75rem; padding: 0.6rem 0.9rem;
+  background: rgba(15, 28, 45, 0.82); color: #fff; border-radius: 10px; font-size: 0.92rem;
+}
+.cofre3d-opcoes {
+  position: absolute; top: 0.75rem; left: 0.75rem; display: flex; gap: 0.9rem; flex-wrap: wrap;
+  background: rgba(255, 255, 255, 0.88); padding: 0.4rem 0.7rem; border-radius: 10px; font-size: 0.88rem;
+}
+.cofre3d-opcoes label { display: flex; align-items: center; gap: 0.3rem; cursor: pointer; }
+.cofre3d-lado .painel { margin-bottom: 0.75rem; }
+.cofre3d-lado p { margin: 0.4rem 0 0; line-height: 1.45; }
+.cofre3d-tipo {
+  display: inline-block; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+  color: var(--primaria); background: #e6eef8; padding: 0.2rem 0.55rem; border-radius: 999px;
+}
+.cofre3d-nome { margin: 0.6rem 0 0.2rem; display: flex; align-items: center; gap: 0.5rem; }
+.cofre3d-num {
+  display: inline-grid; place-items: center; min-width: 22px; height: 22px; border-radius: 50%;
+  background: var(--primaria); color: #fff; font-size: 0.75rem; font-weight: 700;
+}
+.cofre3d-mini { font-size: 0.85rem; margin-bottom: 0.75rem !important; }
+.cofre3d-campo { display: flex; flex-direction: column; gap: 0.3rem; font-size: 0.9rem; margin-bottom: 0.6rem; }
+.cofre3d-campo select { padding: 0.5rem; border: 1px solid var(--borda); border-radius: 8px; font: inherit; }
+.cofre3d-largo { width: 100%; }
+.cofre3d-controles { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin: 0.6rem 0; }
+.cofre3d-cores { display: flex; gap: 0.5rem; }
+.cofre3d-alarme { color: var(--ruim); font-weight: 600; }
+.cofre3d-grupo h3 { margin: 0.4rem 0 0.4rem; font-size: 0.9rem; color: var(--suave); }
+.cofre3d-lista { display: flex; flex-direction: column; gap: 0.25rem; margin-bottom: 0.5rem; }
+.cofre3d-item {
+  display: flex; align-items: center; gap: 0.5rem; text-align: left; padding: 0.4rem 0.5rem; border-radius: 8px;
+  border: 1px solid transparent; background: none; font: inherit; color: var(--texto); cursor: pointer;
+}
+.cofre3d-item:hover { background: #f0f5fb; }
+.cofre3d-item.ativo { border-color: var(--primaria); background: #eef4fb; }
+.cofre3d-publico { max-width: 1240px; margin: 0 auto; padding: 1.25rem 1rem 3rem; }
+@media (max-width: 900px) {
+  .cofre3d-grade { grid-template-columns: 1fr; }
+  .cofre3d-canvas { height: 60vh; min-height: 340px; }
+}
+.link-cofre3d { display: block; text-align: center; margin-top: 0.25rem; font-weight: 600; }

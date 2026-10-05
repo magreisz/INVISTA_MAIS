@@ -194,6 +194,7 @@ export default function Painel() {
         <div className="acoes">
           <Link className="botao secundario" to={`/cofrinhos/${id}/estatisticas`}>Estatísticas</Link>
           <Link className="botao secundario" to={`/cofrinhos/${id}/simulacao`}>Simulação</Link>
+          <Link className="botao secundario" to={`/cofrinhos/${id}/cofre-3d`}>Cofre 3D</Link>
         </div>
       </div>
 

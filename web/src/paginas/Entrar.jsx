@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { useAuth } from '../auth';
 import { auth } from '../firebase';
 
@@ -69,6 +69,7 @@ export default function Entrar() {
         <button className="botao" disabled={enviando}>
           {enviando ? 'Aguarde...' : modo === 'entrar' ? 'Entrar' : 'Criar conta'}
         </button>
+        <Link className="link-cofre3d" to="/cofre-3d">Conheça o cofrinho por dentro em 3D</Link>
       </form>
     </div>
   );
