@@ -14,7 +14,7 @@ import Simulacao from './src/telas/Simulacao';
 const ABAS = [
   { id: 'painel', rotulo: 'Visão geral', icone: 'painel', Tela: Painel },
   { id: 'estatisticas', rotulo: 'Desempenho', icone: 'desempenho', Tela: Estatisticas },
-  { id: 'simulacao', rotulo: 'Aportes', icone: 'aportes', Tela: Simulacao },
+  { id: 'simulacao', rotulo: 'Simulação', icone: 'aportes', Tela: Simulacao },
 ];
 
 function Icone({ nome, cor }) {
@@ -65,7 +65,7 @@ export default function App() {
           <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 16, paddingVertical: 10, backgroundColor: '#fff', borderBottomWidth: 1, borderColor: cores.borda }}>
             <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
               <Icone nome="aportes" cor={cores.primaria} />
-              <Text style={{ fontSize: 20, fontWeight: '700', color: cores.primaria }}>Invista+</Text>
+              <Text style={{ fontSize: 18, fontWeight: '700', color: cores.primaria }}>Cofrinho Invista+</Text>
             </View>
             <View style={{ flexDirection: 'row', alignItems: 'center', gap: 16 }}>
               {dispositivo && (

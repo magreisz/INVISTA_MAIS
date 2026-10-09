@@ -26,7 +26,7 @@ export default function Entrar({ aoEntrar }) {
     <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} style={{ flex: 1 }}>
       <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', padding: 20 }}>
         <Painel>
-          <Text style={[estilos.titulo, { color: cores.primaria, textAlign: 'center' }]}>Invista+</Text>
+          <Text style={[estilos.titulo, { color: cores.primaria, textAlign: 'center' }]}>Cofrinho Invista+</Text>
           <Text style={[estilos.suave, { textAlign: 'center' }]}>Educação financeira começa com bons hábitos. Acompanhe suas economias e planeje seus próximos aportes.</Text>
           <View style={{ flexDirection: 'row', backgroundColor: '#eef2f7', borderRadius: 10, padding: 4 }}>
             {[['Entrar', false], ['Criar conta', true]].map(([rotulo, valor]) => (
