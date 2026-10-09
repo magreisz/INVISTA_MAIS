@@ -26,8 +26,8 @@ export default function Entrar({ aoEntrar }) {
     <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} style={{ flex: 1 }}>
       <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', padding: 20 }}>
         <Painel>
-          <Text style={[estilos.titulo, { color: cores.primaria, textAlign: 'center' }]}>Cofrinho Invista+</Text>
-          <Text style={[estilos.suave, { textAlign: 'center' }]}>Educação financeira com um cofrinho conectado</Text>
+          <Text style={[estilos.titulo, { color: cores.primaria, textAlign: 'center' }]}>Invista+</Text>
+          <Text style={[estilos.suave, { textAlign: 'center' }]}>Educação financeira começa com bons hábitos. Acompanhe suas economias e planeje seus próximos aportes.</Text>
           <View style={{ flexDirection: 'row', backgroundColor: '#eef2f7', borderRadius: 10, padding: 4 }}>
             {[['Entrar', false], ['Criar conta', true]].map(([rotulo, valor]) => (
               <Pressable
@@ -42,7 +42,7 @@ export default function Entrar({ aoEntrar }) {
           </View>
           <Campo rotulo="E-mail" value={email} onChangeText={setEmail} autoCapitalize="none" keyboardType="email-address" autoComplete="email" />
           <Campo rotulo="Senha" value={senha} onChangeText={setSenha} secureTextEntry autoComplete={criarConta ? 'new-password' : 'password'} />
-          {criarConta && <Text style={estilos.suave}>Mínimo de 8 caracteres. A conta deve ser do responsável.</Text>}
+          {criarConta && <Text style={estilos.suave}>Use ao menos 8 caracteres. A conta deve ser do responsável.</Text>}
           <Erro mensagem={erro} />
           <Botao titulo={criarConta ? 'Criar conta' : 'Entrar'} aoTocar={enviar} carregando={enviando} desativado={!email || !senha} />
         </Painel>

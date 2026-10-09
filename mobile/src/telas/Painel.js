@@ -42,7 +42,7 @@ function Controles({ id }) {
     return (
       <Caixa>
         <Text style={estilos.subtitulo}>Controles</Text>
-        {estado.erro ? <Erro mensagem={`Estado ao vivo indisponível: ${estado.erro}`} /> : <Text style={estilos.suave}>Conectando ao Blynk...</Text>}
+        {estado.erro ? <Erro mensagem={`Estado ao vivo indisponível: ${estado.erro}`} /> : <Text style={estilos.suave}>Conectando ao dispositivo...</Text>}
       </Caixa>
     );
   }
@@ -125,21 +125,22 @@ function Cotas({ saldoCentavos }) {
 
   return (
     <Caixa>
-      <Text style={estilos.subtitulo}>Quantas cotas de FII daria para comprar?</Text>
-      <Campo rotulo="Ticker do FII" value={ticker} onChangeText={setTicker} autoCapitalize="characters" />
-      <Botao titulo="Calcular" aoTocar={calcular} carregando={buscando} />
+      <Text style={estilos.subtitulo}>Simule a compra de cotas de FII</Text>
+      <Text style={estilos.suave}>Veja quantas cotas caberiam no saldo atual do cofrinho, usando uma cotação indicativa.</Text>
+      <Campo rotulo="Código do FII" value={ticker} onChangeText={setTicker} autoCapitalize="characters" />
+      <Botao titulo="Simular cotas" aoTocar={calcular} carregando={buscando} />
       {resultado && resultado.cotas > 0 && (
         <Text style={estilos.texto}>
-          Com {centavos(saldoCentavos)} daria para comprar {resultado.cotas} cota(s) de {resultado.codigo} a {reais(resultado.cotacao)} cada.
+          Com {centavos(saldoCentavos)}, o saldo cobre {resultado.cotas} cota(s) de {resultado.codigo}, a {reais(resultado.cotacao)} cada, sem considerar taxas.
         </Text>
       )}
       {resultado && resultado.cotas === 0 && (
         <Text style={estilos.texto}>
-          Ainda não dá para comprar uma cota de {resultado.codigo} ({reais(resultado.cotacao)}). Faltam {reais(Math.max(0, resultado.cotacao - saldoCentavos / 100))}.
+          O saldo ainda não cobre uma cota de {resultado.codigo} ({reais(resultado.cotacao)}). Faltariam {reais(Math.max(0, resultado.cotacao - saldoCentavos / 100))}, sem considerar taxas.
         </Text>
       )}
       <Erro mensagem={erro} />
-      <Text style={estilos.suave}>Conta educativa. Não é recomendação de investimento.</Text>
+      <Text style={estilos.suave}>Simulação educativa com cotação indicativa. Não é recomendação de investimento; preços e riscos variam.</Text>
     </Caixa>
   );
 }
@@ -165,7 +166,7 @@ export default function Painel({ dispositivo }) {
     >
       <Titulo>{d.apelido}</Titulo>
       <Caixa>
-        <Text style={estilos.suave}>SALDO NO COFRE</Text>
+        <Text style={estilos.suave}>VALOR ACUMULADO</Text>
         <Text style={{ fontSize: 34, fontWeight: '700', color: cores.primaria }}>{centavos(d.saldoCentavos)}</Text>
         {d.metaCentavos ? (
           <>
@@ -174,14 +175,14 @@ export default function Painel({ dispositivo }) {
             {dias !== null && <Text style={estilos.suave}>{dias === 0 ? 'Meta atingida!' : `No ritmo atual, faltam cerca de ${numero(dias, 0)} dias.`}</Text>}
           </>
         ) : (
-          <Text style={estilos.suave}>Defina uma meta pelo site.</Text>
+          <Text style={estilos.suave}>Defina uma meta no site para acompanhar seu planejamento.</Text>
         )}
       </Caixa>
       <Erro mensagem={detalhe.erro || depositos.erro} />
       <Controles id={dispositivo.id} />
       <View style={estilos.grade}>
-        <Cartao titulo="Depósitos recentes" valor={String(resumo.quantidade)} detalhe={`${resumo.moedas} moedas e ${resumo.cedulas} cédulas`} />
-        <Cartao titulo="Média por depósito" valor={reais(resumo.mediaReais)} detalhe={`Maior: ${reais(resumo.maiorReais)}`} />
+        <Cartao titulo="Aportes recentes" valor={String(resumo.quantidade)} detalhe={`${resumo.moedas} moedas e ${resumo.cedulas} cédulas`} />
+        <Cartao titulo="Aporte médio" valor={reais(resumo.mediaReais)} detalhe={`Maior aporte: ${reais(resumo.maiorReais)}`} />
       </View>
       <Cotas saldoCentavos={d.saldoCentavos} />
     </ScrollView>
