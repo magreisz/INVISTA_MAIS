@@ -110,6 +110,12 @@ Perguntas, histórico recente e indicadores são enviados ao Google. O servidor 
 
 O timeout da chamada Gemini é de 20 segundos; o navegador espera até 65 segundos pela operação completa. O scraper mantém o cache original de cinco minutos por instância. Não há repetição automática de chamadas pagas nem cache persistente de respostas de IA.
 
+## Dashboard no Blynk
+
+Painel de IoT do cofrinho no Blynk: saldo, último depósito, peso, luminosidade, tampa e os controles da trava, do LED e do buzzer.
+
+![Dashboard do cofrinho no Blynk](docs/imagens/blynk-dashboard.png)
+
 ## Cofrinho IoT e API REST
 
 A documentação interativa (OpenAPI 3.1) fica em **`/api/docs`**, e o arquivo em [`docs/openapi.yaml`](docs/openapi.yaml).
