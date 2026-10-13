@@ -36,7 +36,7 @@ O passo a passo completo (instalação, modo emulador sem senhas, app no celular
 ## Equipe
 
 * [@magreisz](https://github.com/magreisz)
-* [@VIT0R-maker](https://github.com/VIT0R-maker)
+* [@VIT0R-maker](https://github.com/VIT0R-maker): IoT, Wokwi e Blynk
 * [@MarceloMoraisBueno](https://github.com/MarceloMoraisBueno)
 * [@matheus-marques-dev](https://github.com/matheus-marques-dev)
 
