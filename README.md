@@ -114,7 +114,7 @@ O timeout da chamada Gemini é de 20 segundos; o navegador espera até 65 segund
 
 Painel de IoT do cofrinho no Blynk: saldo, último depósito, peso, luminosidade, tampa e os controles da trava, do LED e do buzzer.
 
-![Dashboard do cofrinho no Blynk](docs/imagens/blynk-dashboard.png)
+![Dashboard do cofrinho no Blynk](docs/imagens/blynk-dashboard.jpeg)
 
 ## Cofrinho IoT e API REST
 
