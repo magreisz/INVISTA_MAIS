@@ -4,11 +4,16 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Svg, { Circle, Path, Rect } from 'react-native-svg';
 import { cores } from './UI';
 
-export const ALTURA_BARRA = 58;
+export const ALTURA_BARRA = 64;
+const MARGEM_LATERAL = 22;
+
+function margemInferior(bottom) {
+  return Math.max(bottom - 6, 12);
+}
 
 export function useEspacoBarra() {
   const { bottom } = useSafeAreaInsets();
-  return ALTURA_BARRA + bottom + 16;
+  return ALTURA_BARRA + margemInferior(bottom) + 20;
 }
 
 export function IconeAba({ nome, ativo, cor = cores.texto, tamanho = 26 }) {
@@ -48,45 +53,56 @@ export function IconeAba({ nome, ativo, cor = cores.texto, tamanho = 26 }) {
 export default function BarraAbas({ abas, ativa, aoEscolher }) {
   const { bottom } = useSafeAreaInsets();
   return (
-    <View pointerEvents="box-none" style={[estilos.envoltorio, { paddingBottom: bottom }]}>
-      <BlurView
-        intensity={Platform.OS === 'ios' ? 60 : 40}
-        tint="light"
-        experimentalBlurMethod="dimezisBlurView"
-        style={StyleSheet.absoluteFill}
-      />
-      <View style={[StyleSheet.absoluteFill, estilos.vidro]} />
-      <View style={estilos.linha} accessibilityRole="tablist">
-        {abas.map(a => {
-          const selecionada = a.id === ativa;
-          return (
-            <Pressable
-              key={a.id}
-              onPress={() => aoEscolher(a.id)}
-              accessibilityRole="tab"
-              accessibilityLabel={a.rotulo}
-              accessibilityState={{ selected: selecionada }}
-              hitSlop={8}
-              style={({ pressed }) => [estilos.botao, pressed && { transform: [{ scale: 0.9 }] }]}
-            >
-              <IconeAba nome={a.icone} ativo={selecionada} cor={selecionada ? cores.texto : '#4a5560'} />
-              <View style={[estilos.ponto, selecionada && estilos.pontoAtivo]} />
-            </Pressable>
-          );
-        })}
+    <View pointerEvents="box-none" style={[estilos.area, { bottom: margemInferior(bottom) }]}>
+      <View style={estilos.sombra}>
+        <View style={estilos.pilula}>
+          <BlurView
+            intensity={Platform.OS === 'ios' ? 50 : 35}
+            tint="light"
+            experimentalBlurMethod="dimezisBlurView"
+            style={StyleSheet.absoluteFill}
+          />
+          <View style={[StyleSheet.absoluteFill, estilos.vidro]} />
+          <View style={estilos.linha} accessibilityRole="tablist">
+            {abas.map(a => {
+              const selecionada = a.id === ativa;
+              return (
+                <Pressable
+                  key={a.id}
+                  onPress={() => aoEscolher(a.id)}
+                  accessibilityRole="tab"
+                  accessibilityLabel={a.rotulo}
+                  accessibilityState={{ selected: selecionada }}
+                  hitSlop={6}
+                  style={({ pressed }) => [estilos.botao, pressed && { transform: [{ scale: 0.92 }] }]}
+                >
+                  <View style={[estilos.destaque, selecionada && estilos.destaqueAtivo]}>
+                    <IconeAba nome={a.icone} ativo={selecionada} cor={selecionada ? cores.texto : '#3b4651'} />
+                  </View>
+                </Pressable>
+              );
+            })}
+          </View>
+        </View>
       </View>
     </View>
   );
 }
 
 const estilos = StyleSheet.create({
-  envoltorio: {
-    position: 'absolute', left: 0, right: 0, bottom: 0, overflow: 'hidden',
-    borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: 'rgba(37, 48, 59, 0.18)',
+  area: { position: 'absolute', left: MARGEM_LATERAL, right: MARGEM_LATERAL },
+  sombra: {
+    borderRadius: ALTURA_BARRA / 2,
+    shadowColor: '#0b1a2b', shadowOpacity: 0.18, shadowRadius: 18, shadowOffset: { width: 0, height: 8 },
+    elevation: 10,
   },
-  vidro: { backgroundColor: Platform.OS === 'ios' ? 'rgba(255, 255, 255, 0.55)' : 'rgba(255, 255, 255, 0.78)' },
-  linha: { height: ALTURA_BARRA, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around' },
-  botao: { flex: 1, height: ALTURA_BARRA, alignItems: 'center', justifyContent: 'center', gap: 4 },
-  ponto: { width: 4, height: 4, borderRadius: 2, backgroundColor: 'transparent' },
-  pontoAtivo: { backgroundColor: cores.primaria },
+  pilula: {
+    height: ALTURA_BARRA, borderRadius: ALTURA_BARRA / 2, overflow: 'hidden',
+    borderWidth: 1, borderColor: 'rgba(255, 255, 255, 0.75)',
+  },
+  vidro: { backgroundColor: Platform.OS === 'ios' ? 'rgba(255, 255, 255, 0.45)' : 'rgba(255, 255, 255, 0.72)' },
+  linha: { flex: 1, flexDirection: 'row', alignItems: 'center', paddingHorizontal: 6 },
+  botao: { flex: 1, height: ALTURA_BARRA, alignItems: 'center', justifyContent: 'center' },
+  destaque: { width: '100%', height: ALTURA_BARRA - 14, borderRadius: (ALTURA_BARRA - 14) / 2, alignItems: 'center', justifyContent: 'center' },
+  destaqueAtivo: { backgroundColor: 'rgba(37, 48, 59, 0.10)' },
 });
