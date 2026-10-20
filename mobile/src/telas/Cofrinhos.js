@@ -1,14 +1,16 @@
 import { Pressable, RefreshControl, ScrollView, Text } from 'react-native';
+import { useEspacoBarra } from '../componentes/BarraAbas';
 import { useApi } from '../api';
 import { Erro, Painel, Progresso, Titulo, cores, estilos } from '../componentes/UI';
 import { centavos } from '../processamento';
 
 export default function Cofrinhos({ aoEscolher }) {
+  const espacoBarra = useEspacoBarra();
   const { dados, erro, carregando, recarregar } = useApi('/api/dispositivos');
 
   return (
     <ScrollView
-      contentContainerStyle={{ padding: 16, gap: 12 }}
+      contentContainerStyle={{ padding: 16, gap: 12, paddingBottom: espacoBarra }}
       refreshControl={<RefreshControl refreshing={carregando} onRefresh={recarregar} />}
     >
       <Titulo>Meus cofrinhos</Titulo>

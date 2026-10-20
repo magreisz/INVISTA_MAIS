@@ -1,10 +1,12 @@
 import { RefreshControl, ScrollView, Text, View } from 'react-native';
+import { useEspacoBarra } from '../componentes/BarraAbas';
 import { useApi } from '../api';
 import { GraficoBarras, GraficoLinhas } from '../componentes/Graficos';
 import { Cartao, Erro, Painel, Titulo, cores, estilos } from '../componentes/UI';
 import { mediaMovel, numero, reais } from '../processamento';
 
 export default function Estatisticas({ dispositivo }) {
+  const espacoBarra = useEspacoBarra();
   const { dados: e, erro, carregando, recarregar } = useApi(`/api/dispositivos/${dispositivo.id}/estatisticas`);
 
   const serie = e?.serieDiaria ?? [];
@@ -14,7 +16,7 @@ export default function Estatisticas({ dispositivo }) {
 
   return (
     <ScrollView
-      contentContainerStyle={{ padding: 16, gap: 12 }}
+      contentContainerStyle={{ padding: 16, gap: 12, paddingBottom: espacoBarra }}
       refreshControl={<RefreshControl refreshing={carregando} onRefresh={recarregar} />}
     >
       <Titulo>Estatísticas</Titulo>

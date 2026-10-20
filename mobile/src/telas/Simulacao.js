@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useEspacoBarra } from '../componentes/BarraAbas';
 import { ScrollView, Text, View } from 'react-native';
 import { useApi } from '../api';
 import { GraficoLinhas } from '../componentes/Graficos';
@@ -6,6 +7,7 @@ import { Botao, Campo, Cartao, Erro, Titulo, estilos } from '../componentes/UI';
 import { numero, reais } from '../processamento';
 
 export default function Simulacao({ dispositivo }) {
+  const espacoBarra = useEspacoBarra();
   const [meses, setMeses] = useState('12');
   const [aporte, setAporte] = useState('0');
   const [aplicado, setAplicado] = useState({ meses: 12, aporte: 0 });
@@ -22,7 +24,7 @@ export default function Simulacao({ dispositivo }) {
   }
 
   return (
-    <ScrollView contentContainerStyle={{ padding: 16, gap: 12 }}>
+    <ScrollView contentContainerStyle={{ padding: 16, gap: 12, paddingBottom: espacoBarra }}>
       <Titulo>Quanto renderia?</Titulo>
       <View style={{ flexDirection: 'row', gap: 10 }}>
         <View style={{ flex: 1 }}><Campo rotulo="Meses" value={meses} onChangeText={setMeses} keyboardType="number-pad" /></View>

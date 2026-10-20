@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useEspacoBarra } from '../componentes/BarraAbas';
 import { Pressable, RefreshControl, ScrollView, Switch, Text, View } from 'react-native';
 import Slider from '@react-native-community/slider';
 import { api, useApi } from '../api';
@@ -146,6 +147,7 @@ function Cotas({ saldoCentavos }) {
 }
 
 export default function Painel({ dispositivo }) {
+  const espacoBarra = useEspacoBarra();
   const detalhe = useApi(`/api/dispositivos/${dispositivo.id}`);
   const depositos = useApi(`/api/dispositivos/${dispositivo.id}/depositos?limite=30`);
   const d = detalhe.dados ?? dispositivo;
@@ -161,7 +163,7 @@ export default function Painel({ dispositivo }) {
 
   return (
     <ScrollView
-      contentContainerStyle={{ padding: 16, gap: 12 }}
+      contentContainerStyle={{ padding: 16, gap: 12, paddingBottom: espacoBarra }}
       refreshControl={<RefreshControl refreshing={detalhe.carregando} onRefresh={atualizar} />}
     >
       <Titulo>{d.apelido}</Titulo>

@@ -6,6 +6,7 @@
     "@expo/metro-runtime": "~57.0.16",
     "@react-native-community/slider": "5.2.0",
     "expo": "~57.0.25",
+    "expo-blur": "~57.0.3",
     "expo-secure-store": "~57.0.4",
     "expo-status-bar": "~57.0.1",
     "react": "19.2.3",
