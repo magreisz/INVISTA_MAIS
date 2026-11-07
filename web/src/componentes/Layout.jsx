@@ -2,6 +2,7 @@ import { signOut } from 'firebase/auth';
 import { NavLink, Outlet } from 'react-router-dom';
 import { useAuth } from '../auth';
 import { auth } from '../firebase';
+import BotaoTema from './BotaoTema';
 
 export default function Layout() {
   const { usuario } = useAuth();
@@ -18,6 +19,7 @@ export default function Layout() {
           <NavLink to="/favoritos">Favoritos</NavLink>
         </nav>
         <div className="conta">
+          <BotaoTema />
           <span className="conta-email">{usuario?.email}</span>
           <button className="botao secundario" onClick={() => signOut(auth)}>Sair</button>
         </div>

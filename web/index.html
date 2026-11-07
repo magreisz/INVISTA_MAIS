@@ -5,6 +5,16 @@
     <link rel="icon" type="image/svg+xml" href="/icone.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Cofrinho Invista+</title>
+    <script>
+      (function () {
+        var tema = null;
+        try { tema = localStorage.getItem('invista-tema'); } catch (e) { tema = null; }
+        if (tema !== 'claro' && tema !== 'escuro') {
+          tema = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'escuro' : 'claro';
+        }
+        document.documentElement.dataset.tema = tema;
+      })();
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" />
   </head>

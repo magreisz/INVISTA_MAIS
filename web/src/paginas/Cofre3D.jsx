@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { api } from '../api';
+import BotaoTema from '../componentes/BotaoTema';
 import { criarCena } from '../cofre3d/cena';
 import { CORES_LED, GRUPOS, PECAS, VALORES_CENTAVOS } from '../cofre3d/pecas';
 import { centavos } from '../formatos';
@@ -119,7 +120,12 @@ export default function Cofre3D() {
               <button className={`botao ${modo === 'demo' ? '' : 'secundario'}`} onClick={() => setModo('demo')}>Demonstração</button>
             </div>
           )}
-          {id ? <Link className="botao secundario" to={`/cofrinhos/${id}`}>Voltar ao painel</Link> : <Link className="botao secundario" to="/entrar">Entrar</Link>}
+          {id ? <Link className="botao secundario" to={`/cofrinhos/${id}`}>Voltar ao painel</Link> : (
+            <>
+              <BotaoTema />
+              <Link className="botao secundario" to="/entrar">Entrar</Link>
+            </>
+          )}
         </div>
       </div>
 

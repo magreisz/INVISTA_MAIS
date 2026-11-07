@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { useAuth } from '../auth';
+import BotaoTema from '../componentes/BotaoTema';
 import { auth } from '../firebase';
 
 const MENSAGENS = {
@@ -42,6 +43,7 @@ export default function Entrar() {
 
   return (
     <div className="tela-entrada">
+      <BotaoTema className="tela-entrada-tema" />
       <form className="painel entrada" onSubmit={enviar}>
         <h1 className="marca grande"><span className="marca-icone">+</span> Cofrinho Invista+</h1>
         <p className="subtitulo">Educação financeira com um cofrinho conectado</p>
