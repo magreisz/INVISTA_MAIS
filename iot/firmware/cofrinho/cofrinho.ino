@@ -65,6 +65,8 @@ char mensagem[22] = "";
 unsigned long mensagemAte = 0;
 unsigned long proximaTentativaBlynk = 0;
 unsigned long esperaBlynk = 5000;
+bool saldoSincronizado = false;
+unsigned long proximaSincronia = 0;
 
 struct Pendente {
   char caminho[16];
@@ -106,6 +108,41 @@ int postarApi(const char* caminho, const char* corpo) {
   }
   http.end();
   return status;
+}
+
+void sincronizarSaldo() {
+  if (saldoSincronizado || !apiConfigurada() || WiFi.status() != WL_CONNECTED || millis() < proximaSincronia) return;
+  proximaSincronia = millis() + 15000;
+  WiFiClientSecure cliente;
+  cliente.setCACert(RAIZES_TLS);
+  HTTPClient http;
+  String url = String(API_URL) + "/api/dispositivos/" + DISPOSITIVO_ID + "/saldo";
+  if (!http.begin(cliente, url)) return;
+  http.setTimeout(10000);
+  http.addHeader("Authorization", String("Bearer ") + CHAVE_DISPOSITIVO);
+  int status = http.GET();
+  if (status == 200) {
+    String resposta = http.getString();
+    int i = resposta.indexOf("\"saldoCentavos\":");
+    if (i >= 0) {
+      saldoCentavos = resposta.substring(i + 16).toInt();
+      memoria.putLong("saldo", saldoCentavos);
+    }
+    int j = resposta.indexOf("\"metaCentavos\":");
+    if (j >= 0) {
+      long meta = resposta.substring(j + 15).toInt();
+      if (meta > 0) metaCentavos = meta;
+    }
+    metaComemorada = metaCentavos > 0 && saldoCentavos >= metaCentavos;
+    if (Blynk.connected()) Blynk.virtualWrite(V0, saldoCentavos / 100.0);
+    saldoSincronizado = true;
+    mostrarMensagem("Saldo atualizado");
+    Serial.printf("Saldo lido da API: R$%.2f\n", saldoCentavos / 100.0);
+  } else if (status == 401 || status == 404) {
+    saldoSincronizado = true;
+    Serial.printf("API recusou a leitura do saldo (HTTP %d).\n", status);
+  }
+  http.end();
 }
 
 void enviarPendentes() {
@@ -411,6 +448,7 @@ void setup() {
 }
 
 void loop() {
+  sincronizarSaldo();
   manterBlynk();
   timer.run();
   verificarFenda();
