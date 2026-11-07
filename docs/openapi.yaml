@@ -277,6 +277,26 @@ paths:
           content: { application/json: { schema: { type: object, properties: { depositos: { type: array, items: { $ref: '#/components/schemas/Deposito' } } } } } }
         '404': { $ref: '#/components/responses/NaoEncontrado' }
 
+  /api/dispositivos/{id}/saldo:
+    parameters: [{ $ref: '#/components/parameters/id' }]
+    get:
+      operationId: lerSaldoDoDispositivo
+      tags: [ESP32]
+      summary: Saldo e meta guardados no servidor, lidos pelo ESP32 ao ligar
+      security: [{ chaveDispositivo: [] }]
+      responses:
+        '200':
+          description: Saldo atual do cofrinho
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [saldoCentavos, metaCentavos]
+                properties:
+                  saldoCentavos: { type: integer, minimum: 0 }
+                  metaCentavos: { type: [integer, 'null'] }
+        '401': { description: Chave do dispositivo inválida }
+
   /api/dispositivos/{id}/eventos:
     parameters: [{ $ref: '#/components/parameters/id' }]
     post:

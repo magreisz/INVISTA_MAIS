@@ -114,6 +114,12 @@ test('ESP32 registra depósitos com a chave, sem duplicar reenvios', async t => 
   }
   const lista = await (await ctx.chamar('GET', `/api/dispositivos/${id}/depositos`, { token: 'u1' })).json();
   assert.equal(lista.depositos.length, 1);
+
+  assert.equal((await ctx.chamar('GET', `/api/dispositivos/${id}/saldo`)).status, 401);
+  assert.equal((await ctx.chamar('GET', `/api/dispositivos/${id}/saldo`, { token: 'u1' })).status, 401);
+  const saldo = await ctx.chamar('GET', `/api/dispositivos/${id}/saldo`, { token: chaveDispositivo });
+  assert.equal(saldo.status, 200);
+  assert.deepEqual(await saldo.json(), { saldoCentavos: 100, metaCentavos: null });
   assert.equal(lista.depositos[0].origem, 'sensor');
 
   const evento = { id: 'esp-1-0002', tipo: 'tampa_aberta' };
