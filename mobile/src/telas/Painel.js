@@ -80,7 +80,7 @@ function Controles({ id }) {
               onPress={() => comandar({ cor: c.nome })}
               style={{
                 width: 38, height: 38, borderRadius: 19, backgroundColor: c.cor,
-                borderWidth: 3, borderColor: atuadores.cor === c.nome ? cores.primaria : '#fff',
+                borderWidth: 3, borderColor: atuadores.cor === c.nome ? cores.primaria : cores.painel,
               }}
             />
           ))}
