@@ -67,6 +67,7 @@ unsigned long proximaTentativaBlynk = 0;
 unsigned long esperaBlynk = 5000;
 bool saldoSincronizado = false;
 unsigned long proximaSincronia = 0;
+int tentativasSincronia = 0;
 
 struct Pendente {
   char caminho[16];
@@ -111,8 +112,9 @@ int postarApi(const char* caminho, const char* corpo) {
 }
 
 void sincronizarSaldo() {
-  if (saldoSincronizado || !apiConfigurada() || WiFi.status() != WL_CONNECTED || millis() < proximaSincronia) return;
-  proximaSincronia = millis() + 15000;
+  if (saldoSincronizado || tentativasSincronia >= 3 || !apiConfigurada() || !Blynk.connected() || millis() < proximaSincronia) return;
+  tentativasSincronia++;
+  proximaSincronia = millis() + 30000;
   WiFiClientSecure cliente;
   cliente.setCACert(RAIZES_TLS);
   HTTPClient http;
@@ -448,8 +450,8 @@ void setup() {
 }
 
 void loop() {
-  sincronizarSaldo();
   manterBlynk();
+  sincronizarSaldo();
   timer.run();
   verificarFenda();
   verificarBotao();
