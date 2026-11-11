@@ -295,11 +295,11 @@ void verificarBotao() {
   bool pressionado = digitalRead(PINO_BOTAO) == LOW;
   unsigned long agora = millis();
   if ((pressionado || botaoApertou) && botaoDesde == 0) {
-    botaoDesde = agora | 1;
+    botaoDesde = max(agora, 1UL);
     botaoLongoFeito = false;
   }
   botaoApertou = false;
-  if (botaoDesde != 0 && agora - ultimaVerificacaoBotao > 300) botaoDesde = agora | 1;
+  if (botaoDesde != 0 && agora - ultimaVerificacaoBotao > 300) botaoDesde = max(agora, 1UL);
   ultimaVerificacaoBotao = agora;
   if (pressionado && !botaoLongoFeito && agora - botaoDesde >= PRESSAO_LONGA_MS) {
     botaoLongoFeito = true;
