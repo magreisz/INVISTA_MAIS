@@ -41,8 +41,10 @@ Legenda: ✅ implementado · ⏳ pendente
 | Média, moda, mediana, desvio padrão | `lib/estatistica.js` → `GET .../estatisticas` | ✅ |
 | Assimetria e curtose | Pearson 1 e 2, Fisher, Bowley; curtose percentílica e por momentos | ✅ |
 | Probabilidades | Depósito por dia da semana; chance de atingir a meta (normal) | ✅ |
-| Regressão | Tendência do saldo e calibração peso × saldo | ✅ |
-| Inferência | IC 95% da média e teste t de Welch | ✅ |
+| Correlação | Pearson entre o total guardado no dia (Y) e depósitos no dia, fim de semana e dia do mês (X1, X2, X3); matriz de correlação e gráficos de dispersão | ✅ |
+| Regressão | Simples: tendência do saldo e calibração peso × saldo. Múltipla: Y = b0 + b1·X1 + b2·X2 + b3·X3, com t, p-valor, relevância a 5%, R² ajustado e projeção | ✅ |
+| Intervalo de confiança | Média com desvio populacional conhecido (Z), média sem desvio populacional (t de Student) e proporção de cédulas (Z), a 90, 95, 98 e 99% | ✅ |
+| Teste de hipóteses | Os 5 passos (hipóteses, significância, dados, estatística, decisão) com o teste t de Welch fim de semana × dias úteis | ✅ |
 | Gráficos e interpretação dos dados do projeto | `docs/estatistica/analise_cofrinho.ipynb` (dados simulados; refazer com os reais) | ✅ |
 
 ## Programação para Dispositivos Móveis I

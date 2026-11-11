@@ -515,5 +515,10 @@ components:
         histograma: { type: array, items: { type: object } }
         serieDiaria: { type: array, items: { type: object } }
         probabilidade: { type: object, description: Probabilidade de depósito por dia da semana e de atingir a meta até dataMeta }
+        correlacao:
+          type: object
+          description: 'Correlação de Pearson e regressão linear múltipla por dia com depósito. Y = total guardado no dia; X1 = depósitos no dia; X2 = fim de semana; X3 = dia do mês. Traz a matriz de correlação, os pontos para dispersão e, na regressão, coeficientes, t, p-valor, relevância a 5%, R² e R² ajustado.'
         regressao: { type: object, description: 'Tendência do saldo no tempo, calibração peso x saldo e previsão da meta.' }
-        inferencia: { type: object, description: IC 95% da média e teste t de Welch (fim de semana x dias úteis) }
+        inferencia:
+          type: object
+          description: 'IC 95% da média, teste t de Welch (fim de semana x dias úteis) e intervalos de confiança a 90, 95, 98 e 99% nos três casos: média com desvio padrão populacional conhecido (Z, população = todos os depósitos do cofrinho), média sem desvio padrão populacional (t de Student) e proporção de depósitos em cédula (Z).'

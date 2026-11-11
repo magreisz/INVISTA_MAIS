@@ -5,6 +5,7 @@ import {
 } from 'recharts';
 import { api, useApi } from '../api';
 import { Carregando, Cartao, Erro } from '../componentes/Estado';
+import { CorrelacaoRegressao, IntervalosConfianca, TesteHipoteses } from '../componentes/EstatisticaInferencial';
 import { dataHora, diaMes, hojeIso, numero, porcentagem, reais, somarDias } from '../formatos';
 
 const AZUL = '#004a9f';
@@ -157,7 +158,7 @@ export default function Estatisticas() {
             </div>
           </div>
 
-          <h2>Regressão e inferência</h2>
+          <h2>Regressão linear simples</h2>
           <div className="grade-cartoes">
             <Cartao
               titulo="Tendência do saldo"
@@ -174,23 +175,19 @@ export default function Estatisticas() {
               valor={e.regressao.calibracao ? `R$ ${numero(e.regressao.calibracao.b, 3)} por grama` : 'n/d'}
               detalhe={e.regressao.calibracao && `R² = ${numero(e.regressao.calibracao.r2, 3)}`}
             />
-            <Cartao
-              titulo="IC 95% da média"
-              valor={e.inferencia.intervaloConfiancaMedia ? `${reais(e.inferencia.intervaloConfiancaMedia.inferior)} a ${reais(e.inferencia.intervaloConfiancaMedia.superior)}` : 'n/d'}
-              detalhe="t de Student"
-            />
           </div>
-          {e.inferencia.fimDeSemanaVsDiasUteis && (
-            <div className="painel">
-              <h3>Teste t de Welch: fim de semana x dias úteis</h3>
-              <p>
-                Média no fim de semana {reais(e.inferencia.fimDeSemanaVsDiasUteis.mediaFimDeSemana)} e nos dias úteis{' '}
-                {reais(e.inferencia.fimDeSemanaVsDiasUteis.mediaDiasUteis)}. t = {numero(e.inferencia.fimDeSemanaVsDiasUteis.t, 3)},
-                p = {numero(e.inferencia.fimDeSemanaVsDiasUteis.p, 4)}.
-              </p>
-              <p><strong>{e.inferencia.fimDeSemanaVsDiasUteis.conclusao}</strong></p>
-            </div>
-          )}
+
+          <h2>Correlação e regressão múltipla</h2>
+          <CorrelacaoRegressao dados={e.correlacao} />
+
+          <h2>Intervalo de confiança</h2>
+          <IntervalosConfianca dados={e.inferencia.intervalos} />
+
+          <h2>Teste de hipóteses</h2>
+          <div className="painel">
+            <h3>Fim de semana x dias úteis, em 5 passos</h3>
+            <TesteHipoteses dados={e.inferencia.fimDeSemanaVsDiasUteis} />
+          </div>
         </>
       )}
     </section>

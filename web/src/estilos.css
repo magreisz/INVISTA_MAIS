@@ -276,3 +276,20 @@ details summary { cursor: pointer; font-weight: 600; margin-bottom: 0.75rem; }
 .recharts-text { fill: var(--suave); }
 .recharts-default-tooltip { background: var(--painel) !important; border-color: var(--borda) !important; color: var(--texto); }
 .recharts-legend-item-text { color: var(--texto) !important; }
+
+.estat-legenda { margin: 0; font-size: 0.88rem; }
+.estat-dispersoes { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; margin-bottom: 1rem; }
+.estat-rolagem { overflow-x: auto; }
+.estat-matriz td { text-align: center; font-variant-numeric: tabular-nums; }
+.estat-matriz th { font-size: 0.82rem; }
+.estat-formula {
+  font-family: Consolas, 'Courier New', monospace; background: var(--sutil); padding: 0.6rem 0.8rem;
+  border-radius: 8px; overflow-x: auto; white-space: nowrap;
+}
+.estat-intervalo { font-size: 1.25rem; font-weight: 700; color: var(--primaria); margin: 0.5rem 0; }
+.estat-intervalos { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 1rem; margin: 1rem 0 0.5rem; }
+.estat-intervalos .painel { margin-bottom: 0; }
+.estat-intervalos h3 { margin-top: 0.6rem; }
+.estat-projecao { display: flex; flex-direction: column; gap: 0.2rem; }
+.estat-projecao strong { font-size: 1.4rem; color: var(--primaria); }
+.estat-passos { margin: 0; padding-left: 1.3rem; display: grid; gap: 0.7rem; line-height: 1.5; }
