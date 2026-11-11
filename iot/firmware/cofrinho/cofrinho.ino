@@ -59,6 +59,7 @@ unsigned long tampaMudouEm = 0;
 unsigned long botaoDesde = 0;
 bool botaoLongoFeito = false;
 volatile bool botaoApertou = false;
+unsigned long ultimaVerificacaoBotao = 0;
 
 void IRAM_ATTR aoApertarBotao() {
   botaoApertou = true;
@@ -233,6 +234,8 @@ void verificarMeta() {
 }
 
 void registrarDeposito(int valor, float pesoGramas) {
+  Serial.printf("Deposito: R$%.2f
+", valor / 100.0);
   saldoCentavos += valor;
   memoria.putLong("saldo", saldoCentavos);
   const char* forma = valor <= 100 ? "moeda" : "cedula";
@@ -297,6 +300,8 @@ void verificarBotao() {
     botaoLongoFeito = false;
   }
   botaoApertou = false;
+  if (botaoDesde != 0 && agora - ultimaVerificacaoBotao > 300) botaoDesde = agora | 1;
+  ultimaVerificacaoBotao = agora;
   if (pressionado && !botaoLongoFeito && agora - botaoDesde >= PRESSAO_LONGA_MS) {
     botaoLongoFeito = true;
     pedirRelatorio();
