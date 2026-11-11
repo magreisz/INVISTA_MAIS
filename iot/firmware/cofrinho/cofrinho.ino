@@ -66,6 +66,7 @@ void IRAM_ATTR aoApertarBotao() {
 }
 uint32_t contadorBoot = 0;
 uint32_t sequencia = 0;
+uint32_t sessao = 0;
 char idChip[7];
 char mensagem[22] = "";
 unsigned long mensagemAte = 0;
@@ -92,7 +93,8 @@ void mostrarMensagem(const char* texto) {
 }
 
 void novoId(char* destino, size_t tamanho) {
-  snprintf(destino, tamanho, "%s-%lu-%lu", idChip, (unsigned long)contadorBoot, (unsigned long)++sequencia);
+  if (sessao == 0) sessao = (esp_random() ^ micros()) | 1;
+  snprintf(destino, tamanho, "%s-%lu-%08lx-%lu", idChip, (unsigned long)contadorBoot, (unsigned long)sessao, (unsigned long)++sequencia);
 }
 
 int postarApi(const char* caminho, const char* corpo) {
