@@ -58,6 +58,11 @@ unsigned long passagemEm = 0;
 unsigned long tampaMudouEm = 0;
 unsigned long botaoDesde = 0;
 bool botaoLongoFeito = false;
+volatile bool botaoApertou = false;
+
+void IRAM_ATTR aoApertarBotao() {
+  botaoApertou = true;
+}
 uint32_t contadorBoot = 0;
 uint32_t sequencia = 0;
 char idChip[7];
@@ -287,16 +292,17 @@ void verificarFenda() {
 void verificarBotao() {
   bool pressionado = digitalRead(PINO_BOTAO) == LOW;
   unsigned long agora = millis();
-  if (pressionado && botaoDesde == 0) {
-    botaoDesde = agora;
+  if ((pressionado || botaoApertou) && botaoDesde == 0) {
+    botaoDesde = agora | 1;
     botaoLongoFeito = false;
   }
+  botaoApertou = false;
   if (pressionado && !botaoLongoFeito && agora - botaoDesde >= PRESSAO_LONGA_MS) {
     botaoLongoFeito = true;
     pedirRelatorio();
   }
   if (!pressionado && botaoDesde != 0) {
-    if (!botaoLongoFeito && agora - botaoDesde > 40) registrarDeposito(valorSelecionado(), lerPeso());
+    if (!botaoLongoFeito) registrarDeposito(valorSelecionado(), lerPeso());
     botaoDesde = 0;
   }
 }
@@ -404,6 +410,7 @@ BLYNK_WRITE(V9) {
 void setup() {
   Serial.begin(115200);
   pinMode(PINO_BOTAO, INPUT_PULLUP);
+  attachInterrupt(digitalPinToInterrupt(PINO_BOTAO), aoApertarBotao, FALLING);
   pinMode(PINO_TAMPA, INPUT_PULLUP);
   analogReadResolution(12);
 
