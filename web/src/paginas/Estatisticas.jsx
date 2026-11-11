@@ -39,9 +39,24 @@ export default function Estatisticas() {
   const [filtro, setFiltro] = useState({ de: somarDias(hoje, -89), ate: hoje, dataMeta: somarDias(hoje, 60) });
   const [aplicado, setAplicado] = useState(filtro);
   const [erroCsv, setErroCsv] = useState('');
+  const [simulando, setSimulando] = useState(false);
   const { dados: e, erro, carregando, recarregar } = useApi(
     `/api/dispositivos/${id}/estatisticas?de=${aplicado.de}&ate=${aplicado.ate}&dataMeta=${aplicado.dataMeta}`,
   );
+
+  async function dadosDeExemplo(metodo) {
+    if (metodo === 'DELETE' && !window.confirm('Apagar os depósitos simulados? Os depósitos reais continuam.')) return;
+    setSimulando(true);
+    setErroCsv('');
+    try {
+      await api(`/api/dispositivos/${id}/simulados`, { metodo, corpo: metodo === 'POST' ? { dias: 60 } : undefined });
+      recarregar();
+    } catch (falha) {
+      setErroCsv(falha.message);
+    } finally {
+      setSimulando(false);
+    }
+  }
 
   const d = e?.descritiva;
   const serie = e?.serieDiaria.map(p => ({ ...p, dia: diaMes(p.data) })) ?? [];
@@ -68,6 +83,15 @@ export default function Estatisticas() {
         >
           Baixar CSV
         </button>
+        {e?.origem?.simulado > 0 ? (
+          <button type="button" className="botao secundario" disabled={simulando} onClick={() => dadosDeExemplo('DELETE')}>
+            {simulando ? 'Apagando...' : 'Apagar dados simulados'}
+          </button>
+        ) : (
+          <button type="button" className="botao secundario" disabled={simulando} onClick={() => dadosDeExemplo('POST')}>
+            {simulando ? 'Gerando...' : 'Gerar 60 dias simulados'}
+          </button>
+        )}
       </form>
       <Erro mensagem={erroCsv} />
       <Erro mensagem={erro} tentarDeNovo={recarregar} />

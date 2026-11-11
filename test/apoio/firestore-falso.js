@@ -65,6 +65,14 @@ export function criarFirestoreFalso() {
       for (const escrever of escritas) await escrever();
       return resultado;
     },
+    batch() {
+      const escritas = [];
+      return {
+        set: (ref, valor, opcoes) => escritas.push(() => ref.set(valor, opcoes)),
+        delete: ref => escritas.push(async () => { dados.delete(ref.path); }),
+        commit: async () => { for (const escrever of escritas) await escrever(); },
+      };
+    },
     async recursiveDelete(ref) {
       for (const chave of [...dados.keys()]) if (chave === ref.path || chave.startsWith(`${ref.path}/`)) dados.delete(chave);
     },

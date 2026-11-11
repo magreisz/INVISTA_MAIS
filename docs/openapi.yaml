@@ -375,6 +375,30 @@ paths:
         '200': { description: Série mês a mês }
         '404': { $ref: '#/components/responses/NaoEncontrado' }
 
+  /api/dispositivos/{id}/simulados:
+    parameters: [{ $ref: '#/components/parameters/id' }]
+    post:
+      operationId: gerarSimulados
+      tags: [Análises]
+      summary: Grava depósitos de exemplo (origem "simulado") para a análise estatística. Não altera o saldo e repetir não duplica.
+      security: [{ firebase: [] }]
+      requestBody:
+        content:
+          application/json:
+            schema: { type: object, additionalProperties: false, properties: { dias: { type: integer, minimum: 30, maximum: 120, default: 60 } } }
+      responses:
+        '201': { description: 'Quantidade gravada: { gravados, dias }' }
+        '400': { description: Campo inválido ou não permitido }
+        '404': { $ref: '#/components/responses/NaoEncontrado' }
+    delete:
+      operationId: apagarSimulados
+      tags: [Análises]
+      summary: Apaga só os depósitos simulados; os do sensor continuam
+      security: [{ firebase: [] }]
+      responses:
+        '200': { description: 'Quantidade removida: { removidos }' }
+        '404': { $ref: '#/components/responses/NaoEncontrado' }
+
   /api/dispositivos/{id}/estado:
     parameters: [{ $ref: '#/components/parameters/id' }]
     get:

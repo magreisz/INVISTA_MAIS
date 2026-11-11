@@ -87,7 +87,7 @@ test('IDOR: outra conta recebe 404 em todas as rotas do dispositivo', async t =>
   const { id } = await cadastrar(ctx);
   for (const [metodo, caminho, corpo] of [
     ['GET', ''], ['PATCH', '', { apelido: 'x' }], ['DELETE', ''], ['POST', '/chave'], ['GET', '/depositos'], ['GET', '/eventos'],
-    ['GET', '/estatisticas'], ['GET', '/simulacao'], ['GET', '/estado'], ['PATCH', '/atuadores', { trava: false }],
+    ['GET', '/estatisticas'], ['GET', '/simulacao'], ['POST', '/simulados', {}], ['DELETE', '/simulados'], ['GET', '/estado'], ['PATCH', '/atuadores', { trava: false }],
   ]) {
     assert.equal((await ctx.chamar(metodo, `/api/dispositivos/${id}${caminho}`, { token: 'u2', corpo })).status, 404, `${metodo} ${caminho}`);
   }
@@ -241,4 +241,29 @@ test('cliente Blynk monta URLs documentadas e trata erros', async () => {
   const fora = criarClienteBlynk({ fetchImpl: async () => { throw new Error('timeout'); } });
   await assert.rejects(fora.ler('tok', ['v0']), erro => erro.status === 504);
   assert.throws(() => criarClienteBlynk({ servidor: 'evil.com/x?' }));
+});
+
+test('dono gera e apaga depósitos simulados sem mexer no saldo nem nos reais', async t => {
+  const ctx = montar(t);
+  const { id } = await cadastrar(ctx);
+  assert.equal((await ctx.chamar('POST', `/api/dispositivos/${id}/simulados`, { corpo: {} })).status, 401);
+  assert.equal((await ctx.chamar('POST', `/api/dispositivos/${id}/simulados`, { token: 'u1', corpo: { dias: 500 } })).status, 400);
+  assert.equal((await ctx.chamar('POST', `/api/dispositivos/${id}/simulados`, { token: 'u1', corpo: { extra: 1 } })).status, 400);
+  const gerado = await ctx.chamar('POST', `/api/dispositivos/${id}/simulados`, { token: 'u1', corpo: {} });
+  assert.equal(gerado.status, 201);
+  const { gravados, dias } = await gerado.json();
+  assert.equal(dias, 60);
+  assert.ok(gravados > 40);
+  const repetido = await (await ctx.chamar('POST', `/api/dispositivos/${id}/simulados`, { token: 'u1', corpo: {} })).json();
+  assert.equal(repetido.gravados, gravados);
+  const caminhos = [...ctx.db.dados.keys()].filter(k => k.startsWith(`dispositivos/${id}/depositos/`));
+  assert.equal(caminhos.length, gravados);
+  assert.equal(ctx.db.dados.get(`dispositivos/${id}`).saldoCentavos, 0);
+  const estat = await (await ctx.chamar('GET', `/api/dispositivos/${id}/estatisticas`, { token: 'u1' })).json();
+  assert.equal(estat.origem.simulado, gravados);
+  assert.ok(estat.correlacao.diasAnalisados >= 5);
+  ctx.db.dados.set(`dispositivos/${id}/depositos/esp-real`, { valorCentavos: 100, forma: 'moeda', registradoEm: Date.UTC(2026, 9, 1, 12), origem: 'sensor' });
+  const apagado = await (await ctx.chamar('DELETE', `/api/dispositivos/${id}/simulados`, { token: 'u1' })).json();
+  assert.equal(apagado.removidos, gravados);
+  assert.deepEqual([...ctx.db.dados.keys()].filter(k => k.startsWith(`dispositivos/${id}/depositos/`)), [`dispositivos/${id}/depositos/esp-real`]);
 });
