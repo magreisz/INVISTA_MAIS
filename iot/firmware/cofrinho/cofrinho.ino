@@ -234,8 +234,7 @@ void verificarMeta() {
 }
 
 void registrarDeposito(int valor, float pesoGramas) {
-  Serial.printf("Deposito: R$%.2f
-", valor / 100.0);
+  Serial.printf("Deposito: R$%.2f\n", valor / 100.0);
   saldoCentavos += valor;
   memoria.putLong("saldo", saldoCentavos);
   const char* forma = valor <= 100 ? "moeda" : "cedula";
