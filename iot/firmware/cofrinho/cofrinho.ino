@@ -113,6 +113,8 @@ int postarApi(const char* caminho, const char* corpo) {
     if (i >= 0) {
       saldoCentavos = resposta.substring(i + 16).toInt();
       memoria.putLong("saldo", saldoCentavos);
+      saldoSincronizado = true;
+      if (Blynk.connected()) Blynk.virtualWrite(V0, saldoCentavos / 100.0);
     }
   }
   http.end();
