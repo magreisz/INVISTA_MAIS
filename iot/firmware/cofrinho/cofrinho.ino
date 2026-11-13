@@ -382,7 +382,7 @@ void manterBlynk() {
 
 BLYNK_CONNECTED() {
   Blynk.syncVirtual(V5, V6, V7, V9);
-  Blynk.virtualWrite(V0, saldoCentavos / 100.0);
+  if (saldoSincronizado || !apiConfigurada()) Blynk.virtualWrite(V0, saldoCentavos / 100.0);
   Blynk.virtualWrite(V4, tampaAberta ? 1 : 0);
 }
 
