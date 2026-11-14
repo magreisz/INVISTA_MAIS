@@ -68,6 +68,6 @@ Legenda: ✅ implementado · ⏳ pendente
 | Item | Status |
 | --- | --- |
 | Repositório na organização github.com/FatecFranca, com commits de todos | ⏳ |
-| Vídeo de até 5 min no YouTube, público, com fala de todos | ⏳ |
-| Link do vídeo e documentos no README | ⏳ |
+| Vídeo de até 5 min no YouTube, público, com fala de todos | ✅ https://youtu.be/fG7aRtdNYPg (4 min 57 s) |
+| Link do vídeo e documentos no README | ✅ seção "Acesse" do README |
 | Entrega pelo formulário até 1 mês antes do fim das aulas | ⏳ |
